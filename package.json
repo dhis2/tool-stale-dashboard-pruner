@@ -1,20 +1,20 @@
 {
-  "name": "dhis2_webapp_template",
-  "description": "Template for basic DHIS2 webapps",
+  "name": "tool-stale-dashboard-pruner",
+  "description": "Tool to help you remove stale dashboards from your DHIS2 instance",
   "version": "0.1.0",
   "dependencies": {
+    "datatables.net-dt": "^2.1.8",
     "jquery": "^3.7.1"
   },
   "devDependencies": {
-    "@dhis2/cli-style": "github:dhis2/cli-style",
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.15.0",
     "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^7.1.2",
     "d2-manifest": "^1.0.0",
     "eslint": "^9.15.0",
-    "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "^9.15.0",
-    "globals": "^15.12.0",
     "file-loader": "^6.2.0",
+    "globals": "^15.12.0",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.3",
     "style-loader": "^4.0.0",
@@ -43,7 +43,7 @@
       "48": "img/icons/app_logo_48x48.png",
       "96": "img/icons/app_logo_96x96.png"
     },
-    "name": "DHIS2 Skeleton App for Dummies",
+    "name": "Dashboard pruner",
     "version": "0.1.0",
     "appType": "APP"
   }

@@ -26,14 +26,31 @@
                 </div>
             </div>
         </a>
-        <p class="headerBarTitle">App skeleton for dummies</p>
+        <p class="headerBarTitle">Stale dashboard pruner</p>
         <button class="headerBarExit" onclick="location.href='../../..';">Exit</button>
     </div>
 
     <div class="mainView">
-        <p>Content goes here...</p>
-
-        <button onclick="helloWorld()">Hello</button>
+        <div>
+            <div id="detailsSection">
+                <table class="inputs">
+                    <tbody><tr>
+                        <td>Minimum age (days):</td>
+                        <td><input type="text" id="min" name="min"></td>
+                    </tr>
+                    <tr>
+                        <td>Maximum age(days):</td>
+                        <td><input type="text" id="max" name="max"></td>
+                    </tr>
+                </tbody></table>
+                <div id="detailsReport"></div>
+                <button onclick="deleteSelectedDashboards()">Delete selected dashboards</button>
+            </div>
+            <div>
+                <div id="statusSection">
+                    <div id="statusReport"></div>
+            </di>
+        </div>
     </div>
 </body>
 

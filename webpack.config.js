@@ -91,7 +91,8 @@ const webpackConfig = {
         proxy: [
             {
                 context: ["/api"],
-                target: dhisConfig.baseUrl,
+                target: "http://localhost:8080/dhis",
+                auth: "system:System123",
                 secure: false,
                 changeOrigin: true
             }
