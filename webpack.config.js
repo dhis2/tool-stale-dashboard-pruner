@@ -1,17 +1,14 @@
 "use strict";
 
+const path = require("path");
 const webpack = require("webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
-
-
-//const dhisConfigPath = process.env.DHIS2_HOME && `${process.env.DHIS2_HOME}/config`;
 
 var dhisConfig;
 try {
     dhisConfig = require("./d2auth.json"); // eslint-disable-line
 } catch (e) {
-    // Failed to load config file - use default config
     console.warn("\nWARNING! Failed to load DHIS config:", e.message);
     dhisConfig = {
         baseUrl: "http://localhost:8080/dhis",
@@ -56,6 +53,19 @@ const webpackConfig = {
             {
                 test: /\.(ttf|otf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?|(jpg|gif)$/,
                 use: ["file-loader"]
+            },
+            {
+                test: /\.js$/,
+                exclude: [
+                    path.resolve(__dirname, "node_modules"),
+                    path.resolve(__dirname, "src/resources/dhis-header-bar.js")
+                ],
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["@babel/preset-env"]
+                    }
+                }
             }
         ]
     },
@@ -67,9 +77,10 @@ const webpackConfig = {
             template: "src/index.html"
         }),
         new CopyWebpackPlugin({
-            "patterns": [
+            patterns: [
                 { from: "./src/css", to: "css" },
-                { from: "./src/img", to: "img" }
+                { from: "./src/img", to: "img" },
+                { from: "./src/resources/dhis-header-bar.js", to: "resources" } 
             ]
         }),
         new webpack.ProvidePlugin({
@@ -90,7 +101,7 @@ const webpackConfig = {
         compress: true,
         proxy: [
             {
-                context: ["/api"],
+                context: () => true,
                 target: "http://localhost:8080/dhis",
                 auth: "system:System123",
                 secure: false,
