@@ -3,15 +3,14 @@
   "description": "Tool to help you remove empty dashboards from your DHIS2 instance",
   "version": "0.1.1",
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.17.0",
-    "babel-loader": "^9.2.1",
     "datatables.net-dt": "^2.1.8",
-    "eslint-plugin-react": "^7.37.2",
-    "jquery": "^3.7.1",
-    "node-fetch": "^3.3.2",
-    "typescript": "^5.7.2"
+    "jquery": "^3.7.1"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.17.0",
+    "node-fetch": "^3.3.2",
+    "typescript": "^5.7.2",
+    "eslint-plugin-react": "^7.37.2",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.15.0",
     "copy-webpack-plugin": "^12.0.2",
