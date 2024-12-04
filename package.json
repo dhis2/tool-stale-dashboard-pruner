@@ -1,7 +1,7 @@
 {
   "name": "tool-empty-dashboard-pruner",
   "description": "Tool to help you remove empty dashboards from your DHIS2 instance",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^8.17.0",
     "babel-loader": "^9.2.1",
