@@ -1,8 +1,10 @@
 "use strict";
 
 //CSS
-import "./css/header.css";
 import "./css/style.css";
+
+//JS
+import { d2Get } from "./js/d2api.js";
 import $ from "jquery";
 import DataTable from "datatables.net";
 import "datatables.net-dt/css/dataTables.dataTables.css";
@@ -18,6 +20,7 @@ function getContextPath() {
 const baseUrl = getContextPath() + "/api/";
 const check_code = "dashboards_not_viewed_one_year";
 
+let dashboard_properties = {};
 
 function performPostAndGet(baseUrl, path) {
     return new Promise((resolve, reject) => {
@@ -62,11 +65,20 @@ function performPostAndGet(baseUrl, path) {
     });
 }
 
+async function getDashboardProperties() {
+    try {
+        const endpoint = "dashboards?fields=id,lastUpdated,access,sharing&paging=false";
+        return await d2Get(endpoint);
+    } catch (error) {
+        console.error("Error getting dashboard properties:", error);
+    }
+}
+
 function renderDetailsTable(detailsObject) {
     var html = "<div id='details_table'><h2>Stale dashboards</h2>";
     html += "<h3>Dashboards which have not been viewed in at least 12 months</h3>";
     html = html + "<table id='details' class='display' width='100%'>";
-    html = html + "<thead><tr><th>Dashboard name</th><th>ID</th><th>Last access (days)</th><th>Delete</th><th>Select</th></thead><tbody>";
+    html = html + "<thead><tr><th>Dashboard name</th><th>ID</th><th>Last access (days)</th><th>Public Access</th><th>Select</th></thead><tbody>";
     detailsObject.issues.forEach((issue) => {
         if (issue.comment) {
             var date = new Date(issue.comment);
@@ -74,6 +86,16 @@ function renderDetailsTable(detailsObject) {
             var diff = now - date;
             var days = Math.floor(diff / (1000 * 60 * 60 * 24));
             issue.comment = days;
+        }
+    });
+
+    //Determine if the dashboard has public access
+    detailsObject.issues.forEach((issue) => {
+        const dashboard = dashboard_properties.dashboards.find((dashboard) => dashboard.id === issue.id);
+        if (dashboard) {
+            issue.publicAccess = dashboard.sharing.public.startsWith("rw") ? "Public" : "Private";
+        } else {
+            issue.publicAccess = "Unknown";
         }
     });
 
@@ -203,7 +225,8 @@ async function checkVersion() {
     try {
         const response = await fetch(baseUrl + "system/info");
         const data = await response.json();
-        const version = data.version.split(".")[1];
+        let version = data.version.split(".")[1];
+        version = parseInt(version.match(/\d+/)[0]);
         console.log("DHIS2 version:", version);
         return version >= 39;
     } catch (error) {
@@ -219,6 +242,7 @@ window.baseUrl = baseUrl;
 (async () => {
     const is_supported = await checkVersion();
     if (is_supported) {
+        dashboard_properties = await getDashboardProperties();
         runDetails(check_code);
     } else {
         $("#detailsReport").html("<h2>Unsupported DHIS2 version</h2>");
