@@ -1,7 +1,7 @@
 {
   "name": "tool-stale-dashboard-pruner",
   "description": "Tool to help you remove stale dashboards from your DHIS2 instance",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "dependencies": {
     "datatables.net-dt": "^2.1.8",
     "jquery": "^3.7.1"
